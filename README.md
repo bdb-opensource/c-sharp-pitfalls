@@ -54,6 +54,7 @@
 2. Linq-to-SQL:	Non-collection references between two entities (e.g. Division -> DivisionDeduction), is not serialized (no DataMember attribute is created on either side)
 	- See: http://weblogs.asp.net/zeeshanhirani/archive/2008/07/14/entity-refs-not-getting-serialized-with-wcf-service.aspx#6399262
 
+3. **WCF service hosted in IIS**: When defining custom error pages for some error codes, [IIS will mask WCF exceptions](http://noamlewis.wordpress.com/2012/12/03/custom-error-pages-and-wcf-exceptions-in-iis-and-case-of-bad-ui/) and send the custom error page itself (despite this being a service).
 	
 
 
