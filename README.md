@@ -43,7 +43,7 @@
 
 ## Linq to SQL / Entity Framework
 
-1. A LINQ query such as `where entity.str == myString` when `myString` is null, will always return `false` - even if 'str' is a nullable column. (http://stackoverflow.com/questions/8090894/linq-to-entities-and-null-strings)
+1. **Bug** ([fixed in EF6](http://data.uservoice.com/forums/72025-ado-net-entity-framework-ef-feature-suggestions/suggestions/1015361-incorrect-handling-of-null-variables-in-where-cl?ref=title%23suggestion-1015361)): A LINQ query such as `where entity.str == myString` when `myString` is null, will always return `false` - even if 'str' is a nullable column. (http://stackoverflow.com/questions/8090894/linq-to-entities-and-null-strings)
 	This is because in SQL, `[Column] = null`  always evaluates to false (to check for nulls you need `[Column] is null`).
 	
 ## WCF
