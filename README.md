@@ -33,7 +33,7 @@
 
 ### Bugs
 
-1. When [comparing (using `==`) a nullable to a non-nullable generic struct](http://stackoverflow.com/questions/16797890/why-are-generic-and-non-generic-structs-treated-differently-when-building-expres) in an expression, you get a runtime error.
+1. When [comparing (using `==`) a nullable to a non-nullable generic struct](http://stackoverflow.com/questions/16797890/why-are-generic-and-non-generic-structs-treated-differently-when-building-expres) in an expression, you get a runtime error. The [Connect issue](https://connect.microsoft.com/VisualStudio/feedback/details/788793/expression-equal-with-one-nullable-and-one-plain-generic-struct-value-causes-invalidoperationexception#) explains that the bug is fixed in Roslyn, but will probably not be fixed in the current (old) compiler.
 
 ## .NET
 
