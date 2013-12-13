@@ -2,14 +2,38 @@
 
 ## C# Compiler
 
+
+### Pitfalls
+
 1. `GetType()` on a `Nullable<T>` will always return `typeof(T)` (although the type is `Nullable<T>`)
 2. Co/contravariance does not work on value types (i.e. in interface `ITest<out T>`, if it is used with a `T` that's a value type the `out` keyword has no effect)
 3. Calls to a method that has overrides where only one matches the current type constraints, are still considered ambiguous
 4. Arrays of T (`T[]`) "implement" some intefaces such as `ICollection<T>`, but don't *really* implement them. Instead, the throw `NotImplementedException` on methods they can't implement (such as `Add`).
+5. The [compiler sees an ambiguity](http://stackoverflow.com/questions/20412783/why-is-a-property-get-considered-ambiguous-when-the-other-interface-is-set-only) when trying to access a property "MyProp" when inheriting a setter from one interface, and the same property's getter from another interface. Properties are **not** like a pair of methods.
+		
+		interface IGet { int Value { get; } }
+		
+		interface ISet { int Value { set; } }
+		
+		interface IBoth : IGet, ISet { }
+		
+		class Test
+		{
+		    public void Bla(IBoth a)
+		    {
+		        var x = a.Value; // Error: Ambiguity between 'IGet.Value' and 'ISet.Value'
+		    }
+		}
+
+   [According to Eric Lippert](http://stackoverflow.com/a/20413958/562906) the reason is to simplify the compiler's implementation.
 
 ### You may forget this
 
 1. Struct members cannot be protected (because structs cannot be inherited.)
+
+### Bugs
+
+1. When [comparing (using `==`) a nullable to a non-nullable generic struct](http://stackoverflow.com/questions/16797890/why-are-generic-and-non-generic-structs-treated-differently-when-building-expres) in an expression, you get a runtime error.
 
 ## Linq to SQL / Entity Framework
 
