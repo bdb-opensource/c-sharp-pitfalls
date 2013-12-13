@@ -6,7 +6,7 @@
 ### Pitfalls
 
 1. `GetType()` on a `Nullable<T>` will always return `typeof(T)` (although the type is `Nullable<T>`)
-2. Co/contravariance does not work on value types (i.e. in interface `ITest<out T>`, if it is used with a `T` that's a value type the `out` keyword has no effect)
+2. Co/contravariance does not work on value types (i.e. in interface `ITest<out T>`, if it is used with a `T` that's a value type the `out` keyword has no effect).
 3. Calls to a method that has overrides where only one matches the current type constraints, are still considered ambiguous
 4. Arrays of T (`T[]`) "implement" some intefaces such as `ICollection<T>`, but don't *really* implement them. Instead, the throw `NotImplementedException` on methods they can't implement (such as `Add`).
 5. The [compiler sees an ambiguity](http://stackoverflow.com/questions/20412783/why-is-a-property-get-considered-ambiguous-when-the-other-interface-is-set-only) when trying to access a property "MyProp" when inheriting a setter from one interface, and the same property's getter from another interface. Properties are **not** like a pair of methods.
@@ -35,6 +35,7 @@
 ### Bugs
 
 1. When [comparing (using `==`) a nullable to a non-nullable generic struct](http://stackoverflow.com/questions/16797890/why-are-generic-and-non-generic-structs-treated-differently-when-building-expres) in an expression, you get a runtime error. The [Connect issue](https://connect.microsoft.com/VisualStudio/feedback/details/788793/expression-equal-with-one-nullable-and-one-plain-generic-struct-value-causes-invalidoperationexception#) explains that the bug is fixed in Roslyn, but will probably not be fixed in the current (old) compiler.
+2. As explained in pitfalls above, co/contravariance does not work for value-type type parameters. However, [the compiler will allow you to constrain a type parameter to be a value (`struct`)](http://stackoverflow.com/questions/9353293/c-sharp-variance-annotation-of-a-type-parameter-constrained-to-be-value-type) resulting in a useless co/contravariance declaration.
 
 ## .NET
 
