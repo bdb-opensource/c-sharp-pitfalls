@@ -2,9 +2,9 @@
 
 ## C# Compiler
 
-1. GetType() on Nullable<T> will always return typeof(T)
-2. co/contra variance does not work on value types (i.e. in interface ITest<out T>, if it is used with a T that's a value type the 'out' keyword has no effect)
-3. calls to a method that has overrides where only one matches the current type constraints, are still considered ambiguous
+1. `GetType()` on a `Nullable<T>` will always return `typeof(T)` (although the type is `Nullable<T>`)
+2. Co/contravariance does not work on value types (i.e. in interface `ITest<out T>`, if it is used with a `T` that's a value type the `out` keyword has no effect)
+3. Calls to a method that has overrides where only one matches the current type constraints, are still considered ambiguous
 4. Arrays of T (`T[]`) "implement" some intefaces such as `ICollection<T>`, but don't *really* implement them. Instead, the throw `NotImplementedException` on methods they can't implement (such as `Add`).
 
 ### You may forget this
