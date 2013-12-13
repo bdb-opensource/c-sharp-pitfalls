@@ -1,6 +1,6 @@
 # C#/.NET Pitfalls
 
-## C# Compiler
+## C# Language & Compiler
 
 
 ### Pitfalls
@@ -27,6 +27,7 @@
 
    [According to Eric Lippert](http://stackoverflow.com/a/20413958/562906) the reason is to simplify the compiler's implementation.
 6. [Comparing a class to an interface with `==` always compiles, even if they are unrelated](http://stackoverflow.com/questions/14697161/whats-the-reasoning-to-fallback-to-objects-operator-when-one-operand-is-an). Consider two unrelated classes `A` and `B` and variables `a` and `b` of corresponding types. Using `==`, you can't compare `a == b` (fails compilation) - this is expected. Now consider an unrelated interface `IC` and variable `c` - you **can** compare `a == c` despite those types not matching. The reason is that there might be a class `D : A, IC` for which the comparison will make sense. This should be at least a warning (apparently it is in VS >= 2012).
+7. [Default Parameters are Compile-Time Substitutions](http://geekswithblogs.net/BlackRabbitCoder/archive/2011/07/28/c.net-little-pitfalls-default-parameters-are-compile-time-substitutions.aspx), so if you change a parameter's  default value without recompiling dependencies, they will still use the old value.
 
 ### You may forget this
 
