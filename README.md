@@ -1,3 +1,6 @@
+**Contributing**: Either open [an issue on the github page](https://github.com/bdb-opensource/c-sharp-pitfalls/issues), or fork and send a pull request.
+
+
 # C#/.NET Pitfalls
 
 ## C# Language & Compiler
