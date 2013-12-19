@@ -45,10 +45,11 @@
 
 1. The [`DateTime.Equals` method](http://msdn.microsoft.com/en-us/library/635d5466%28v=vs.110%29.aspx) ignores `.Kind`, which makes the Equals method an unreliable of comparing `DateTime`s. [As discussed in this SO question](http://stackoverflow.com/questions/6930489/safely-comparing-local-and-universal-datetimes), the moral is not to use it at all.
 
-## Linq to SQL / Entity Framework
+## Working with SQL (including Linq to SQL / Entity Framework)
 
 1. **Bug** ([fixed in EF6](http://data.uservoice.com/forums/72025-ado-net-entity-framework-ef-feature-suggestions/suggestions/1015361-incorrect-handling-of-null-variables-in-where-cl?ref=title%23suggestion-1015361)): A LINQ query such as `where entity.str == myString` when `myString` is null, will always return `false` - even if 'str' is a nullable column. (http://stackoverflow.com/questions/8090894/linq-to-entities-and-null-strings)
 	This is because in SQL, `[Column] = null`  always evaluates to false (to check for nulls you need `[Column] is null`).
+2. [**DateTime loss of milliseconds resolution**](http://stackoverflow.com/questions/7823966/milliseconds-in-my-datetime-changes-when-stored-in-sql-server): The sql server type `datetime` has less resolution than the .NET `DateTime` type. This means that if you save a DateTime value it won't be the same value when you read it back. EF is aware of this **if you use '2005' for the SqlProvider manifest token** which can be [a bit tricky to do in Code First](http://stackoverflow.com/a/12060518/562906).
 	
 ## WCF
 
