@@ -8,10 +8,10 @@
 
 ### Pitfalls
 
-1. **`GetType()` on a `Nullable<T>` instance** will always return `typeof(T)` (although the type is `Nullable<T>`)
+1. **Calls to `GetType()` on a `Nullable<T>` instance always return `T`,** although the type is `Nullable<T>`.
 2. **Co/contravariance does not work on value types** (i.e. in interface `ITest<out T>`, if it is used with a `T` that's a value type the `out` keyword has no effect).
 3. **Type constraints are ignored when resolving method overloads.** Calls to a method that has overrides where only one matches the current type constraints, are still considered ambiguous.
-4. **`T[]` implements `ICollection<T>`** - arrays of T (`T[]`) "implement" some intefaces such as `ICollection<T>`, but don't *really* implement them. Instead, the throw `NotImplementedException` on methods they can't implement (such as `Add`).
+4. **Array types `T[]` implement `ICollection<T>`** and other incompatible interfaces. Arrays of T (`T[]`) "implement" some intefaces such as `ICollection<T>`, but don't *really* implement them. Instead, the throw `NotImplementedException` on methods they can't implement (such as `Add`).
 5. **Arrays are covariant** despite being writable. In other words: you can assign `object[] x = new string[1]`. If you then go ahead and do `x[0] = new Something();` you get an exception. Furthermore, as Jon Skeet explains, array covariance is [not just ugly, but slow too](http://msmvps.com/blogs/jon_skeet/archive/2013/06/22/array-covariance-not-just-ugly-but-slow-too.aspx).
 6. You **can't combine getter and setter properties via interface inheritance**. The [compiler sees an ambiguity](http://stackoverflow.com/questions/20412783/why-is-a-property-get-considered-ambiguous-when-the-other-interface-is-set-only) when trying to access a property "MyProp" when inheriting a setter from one interface, and the same property's getter from another interface. Properties are **not** like a pair of methods.
 		
