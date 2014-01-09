@@ -8,12 +8,12 @@
 
 ### Pitfalls
 
-1. `GetType()` on a `Nullable<T>` will always return `typeof(T)` (although the type is `Nullable<T>`)
-2. Co/contravariance does not work on value types (i.e. in interface `ITest<out T>`, if it is used with a `T` that's a value type the `out` keyword has no effect).
-3. Calls to a method that has overrides where only one matches the current type constraints, are still considered ambiguous
-4. Arrays of T (`T[]`) "implement" some intefaces such as `ICollection<T>`, but don't *really* implement them. Instead, the throw `NotImplementedException` on methods they can't implement (such as `Add`).
-5. Furthermore, arrays are covariant despite being writable. In other words: you can assign `object[] x = new string[1]`. If you then go ahead and do `x[0] = new Something();` you get an exception. Furthermore, as Jon Skeet explains, array covariance is [not just ugly, but slow too](http://msmvps.com/blogs/jon_skeet/archive/2013/06/22/array-covariance-not-just-ugly-but-slow-too.aspx).
-6. The [compiler sees an ambiguity](http://stackoverflow.com/questions/20412783/why-is-a-property-get-considered-ambiguous-when-the-other-interface-is-set-only) when trying to access a property "MyProp" when inheriting a setter from one interface, and the same property's getter from another interface. Properties are **not** like a pair of methods.
+1. **`GetType()` on a `Nullable<T>` instance** will always return `typeof(T)` (although the type is `Nullable<T>`)
+2. **Co/contravariance does not work on value types** (i.e. in interface `ITest<out T>`, if it is used with a `T` that's a value type the `out` keyword has no effect).
+3. **Type constraints are ignored when resolving method overloads.** Calls to a method that has overrides where only one matches the current type constraints, are still considered ambiguous.
+4. **`T[]` implements `ICollection<T>`** - arrays of T (`T[]`) "implement" some intefaces such as `ICollection<T>`, but don't *really* implement them. Instead, the throw `NotImplementedException` on methods they can't implement (such as `Add`).
+5. **Arrays are covariant** despite being writable. In other words: you can assign `object[] x = new string[1]`. If you then go ahead and do `x[0] = new Something();` you get an exception. Furthermore, as Jon Skeet explains, array covariance is [not just ugly, but slow too](http://msmvps.com/blogs/jon_skeet/archive/2013/06/22/array-covariance-not-just-ugly-but-slow-too.aspx).
+6. You **can't combine getter and setter properties via interface inheritance**. The [compiler sees an ambiguity](http://stackoverflow.com/questions/20412783/why-is-a-property-get-considered-ambiguous-when-the-other-interface-is-set-only) when trying to access a property "MyProp" when inheriting a setter from one interface, and the same property's getter from another interface. Properties are **not** like a pair of methods.
 		
 		interface IGet { int Value { get; } }
 		
@@ -30,8 +30,8 @@
 		}
 
    [According to Eric Lippert](http://stackoverflow.com/a/20413958/562906) the reason is to simplify the compiler's implementation.
-7. [Comparing a class to an interface with `==` always compiles, even if they are unrelated](http://stackoverflow.com/questions/14697161/whats-the-reasoning-to-fallback-to-objects-operator-when-one-operand-is-an). Consider two unrelated classes `A` and `B` and variables `a` and `b` of corresponding types. Using `==`, you can't compare `a == b` (fails compilation) - this is expected. Now consider an unrelated interface `IC` and variable `c` - you **can** compare `a == c` despite those types not matching. The reason is that there might be a class `D : A, IC` for which the comparison will make sense. This should be at least a warning (apparently it is in VS >= 2012).
-8. [Default Parameters are Compile-Time Substitutions](http://geekswithblogs.net/BlackRabbitCoder/archive/2011/07/28/c.net-little-pitfalls-default-parameters-are-compile-time-substitutions.aspx), so if you change a parameter's  default value without recompiling dependencies, they will still use the old value.
+7. [**Comparing a class to an interface with `==` always compiles, even if they are unrelated**](http://stackoverflow.com/questions/14697161/whats-the-reasoning-to-fallback-to-objects-operator-when-one-operand-is-an). Consider two unrelated classes `A` and `B` and variables `a` and `b` of corresponding types. Using `==`, you can't compare `a == b` (fails compilation) - this is expected. Now consider an unrelated interface `IC` and variable `c` - you **can** compare `a == c` despite those types not matching. The reason is that there might be a class `D : A, IC` for which the comparison will make sense. This should be at least a warning (apparently it is in VS >= 2012).
+8. [**Default parameters are compile-time substitutions**](http://geekswithblogs.net/BlackRabbitCoder/archive/2011/07/28/c.net-little-pitfalls-default-parameters-are-compile-time-substitutions.aspx), so if you change a parameter's  default value without recompiling dependencies, they will still use the old value.
 
 ### You may forget this
 
